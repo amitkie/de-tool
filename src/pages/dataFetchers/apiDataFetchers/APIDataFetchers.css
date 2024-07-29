@@ -1,0 +1,29 @@
+/* Ensure the container takes up the full width and height */
+.page-speed-insights {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* height: calc(100vh - 6rem);  */
+  margin-top: 10rem;
+  /* height: 100vh; */
+
+  overflow: hidden;
+}
+
+.iframe {
+  width:   calc(100vw - 100px); 
+  height: calc(100vh - 15rem); 
+  border: none;
+  border-radius: 10px;
+}
+.btn{
+  margin-top: 0.5rem;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  color: #45f3ff;
+  background-color: #3a3a3a;
+  cursor: pointer;
+}

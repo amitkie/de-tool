@@ -1,0 +1,24 @@
+.menu {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .menu-link {
+    margin: 0 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .menu-link.is-active {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .menu-link:hover {
+    background-color: #f1f1f1;
+  }
+  

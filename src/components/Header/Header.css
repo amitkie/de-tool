@@ -1,0 +1,27 @@
+.header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-bar {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  
+  .search-bar:focus {
+    width: 400px;
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .header.wide .search-bar {
+    width: 400px;
+  }
+  

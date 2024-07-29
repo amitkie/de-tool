@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.header-container {
+  position: fixed;
+  height: 75px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  padding: 10px 20px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo img {
+  height: 50px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s, background-color 0.3s;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.header-nav a:hover {
+  color: #45f3ff;
+  background-color: rgba(69, 243, 255, 0.2); /* Light blue background on hover */
+}
+
+.header-nav .active-link {
+  background-color: #45f3ff;
+  color: #000;
+}
+
+.user-info {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #45f3ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-initials {
+  color: #212121;
+  font-weight: 600;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #212121;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  z-index: 1001;
+}
+
+.user-details {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  text-align: center;
+}
+
+.user-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-actions a {
+  padding: 10px;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.user-actions a:hover {
+  background-color: #45f3ff;
+  color: #000;
+}
+
+.logout-button {
+  background-color: #45f3ff; /* Matching background color */
+  color: #000;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: rgba(69, 243, 255, 0.8); /* Slightly lighter blue on hover */
+}

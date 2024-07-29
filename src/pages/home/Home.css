@@ -1,0 +1,80 @@
+.text_heading{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.text_padding{
+    margin-bottom: 1rem;
+}
+
+.main {
+    /* display: grid; */
+    margin-top: 10rem;
+    place-items: center;
+    padding: 3em 1.5em;
+  }
+  .topheading{
+    gap: 1rem;
+  }
+  .main__heading {
+    font-weight: 600;
+    font-size: 2.25em;
+    margin-bottom: 0.75em;
+    text-align: center;
+    color: #eceff1;
+  }
+  
+  .cards {
+    margin-top: 2rem;
+    position: relative;
+  }
+  
+  .cards__inner {
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: 2.5em;
+    
+  }
+  .de_color{
+    /* color: #EE3EC9; */
+  }
+  .tool_color{
+    /* color: #F4900C; */
+  }
+  
+  .overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    user-select: none;
+    opacity: var(--opacity, 0);
+    -webkit-mask: radial-gradient(
+      25rem 25rem at var(--x) var(--y),
+      #000 1%,
+      transparent 50%
+    );
+    mask: radial-gradient(
+      25rem 25rem at var(--x) var(--y),
+      #000 1%,
+      transparent 50%
+    );
+    transition: 400ms mask ease;
+    will-change: mask;
+  }
+  
+  .logoStyle{
+    border-radius: 50%;
+  }
+  .overlay .card {
+    background-color: hsla(var(--hsl), 0.15);
+    border-color: hsla(var(--hsl), 1);
+    box-shadow: 0 0 0 1px inset hsl(var(--hsl));
+  }
+  
+  .overlay .cta {
+    display: block;
+    grid-row: -1;
+    width: 100%;
+    background-color: hsl(var(--hsl));
+    box-shadow: 0 0 0 1px hsl(var(--hsl));
+  }
+  

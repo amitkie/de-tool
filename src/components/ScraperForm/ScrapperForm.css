@@ -1,0 +1,139 @@
+.scraper-form {
+    width: calc(100vw - 2rem);
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #2b2b2b;
+    border-radius: 15px;
+    color: #eceff1;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+  }
+  .url_label{
+    margin-bottom: 20px;
+  }
+
+  .url_container{
+    border: 1px solid  #eceff133;
+    border-radius: 10px;
+    padding: 1rem;
+    max-height: 200px;
+    overflow: scroll;
+  }
+  
+  .url-inputs {
+    display: flex;
+    align-items: center;
+  }
+  
+  .url-inputs input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: #3a3a3a;
+    color: #eceff1;
+  }
+  
+  .url-inputs .add-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .url-inputs .add-button:hover {
+    background-color: #45a049;
+  }
+
+  .save-button{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    color: #45a049;
+    background-color: #3a3a3a;
+    cursor: pointer;
+  }
+  .save-button:hover{
+    background-color: #282727;
+  }
+  .remove-button{
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #3a3a3a;
+    cursor: pointer;
+  }
+  .remove-button:hover{
+    background-color: #282727;
+
+  }
+  .add-button{
+    /* margin-left: 1.2rem; */
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5990ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .add-button:hover{
+    background-color: #6f9dff;
+
+  }
+  .text-danger{
+    color: red;
+  }
+  
+  .form-group input[type="date"] {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3a3a3a;
+    color: #eceff1;
+    width: 45%;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+  .date-range-separator {
+    margin: 0 5px;
+    font-weight: bold;
+  }
+  
+  .form-group select {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3a3a3a;
+    color: #eceff1;
+    width: 100%;
+  }
+  
+  .form-group select option {
+    background-color: #2b2b2b;
+  }
+  .btn-group{
+    margin-top: 1rem;
+    display: flex;
+    gap: 10px;
+  }
+  
