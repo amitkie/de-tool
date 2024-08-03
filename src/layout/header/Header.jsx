@@ -34,7 +34,8 @@ export default function Header() {
         <nav className="header-nav">
           <NavLink to="/home" className={({ isActive }) => (isActive ? 'active-link' : '')}>Home</NavLink>
           <NavLink to="/automate-flow" className={({ isActive }) => (isActive ? 'active-link' : '')}>Automate Flow</NavLink>
-          <NavLink to="/airflow" className={({ isActive }) => (isActive ? 'active-link' : '')}>Airflow</NavLink>
+          {/* <NavLink to="/airflow" className={({ isActive }) => (isActive ? 'active-link' : '')}>Airflow</NavLink> */}
+          <NavLink to="/airflow1" className={({ isActive }) => (isActive ? 'active-link' : '')}>Airflow</NavLink>
           <NavLink to="/select-subscription" className={({ isActive }) => (isActive ? 'active-link' : '')}>Pricing</NavLink>
         </nav>
         <div className="user-info">

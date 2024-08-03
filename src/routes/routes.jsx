@@ -8,6 +8,7 @@ import ScrapperForm from '../components/ScraperForm/ScrapperForm'
 import Subscription from "../pages/subscription/Subscription";
 import { AutomateFlow } from "../pages/automateFlow/AutomateFlow";
 import Services from "../pages/services/Services";
+import Airflow from "../pages/airflow/Airlflow";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Services />
+      </Layout>
+    ),
+  },
+  {
+    path: "/airflow1",
+    element: (
+      <Layout>
+        <Airflow />
       </Layout>
     ),
   },
