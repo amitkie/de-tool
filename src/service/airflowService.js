@@ -17,7 +17,7 @@ const createDagPayload = {
 
 export const createDag = async (data) => {
     try {
-      const response = await axios.post('https://4570-202-78-234-201.ngrok-free.app/create_dag', data);
+      const response = await axios.post('https://d841-202-78-234-201.ngrok-free.app/create_dag', data);
 
     //   response = {
     //     "message": "DAG file created and Airflow reloaded",
@@ -49,7 +49,7 @@ export const createDag = async (data) => {
 
   export const unpauseDag = async (data) => {
     try {
-      const response = await axios.post('https://4570-202-78-234-201.ngrok-free.app/unpause_dag', data);
+      const response = await axios.post('https://d841-202-78-234-201.ngrok-free.app/unpause_dag', data);
 
     //   response = {
     //     "message": "DAG amitpagespeedinsights unpaused",
@@ -76,7 +76,7 @@ export const createDag = async (data) => {
 
   export const pauseDag = async (data) => {
     try {
-      const response = await axios.post('https://4570-202-78-234-201.ngrok-free.app/pause_dag', data);
+      const response = await axios.post('https://d841-202-78-234-201.ngrok-free.app/pause_dag', data);
   
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
@@ -91,7 +91,7 @@ export const createDag = async (data) => {
 
   export const listAllDags = async (data) => {
     try {
-      const response = await axios.post('https://4570-202-78-234-201.ngrok-free.app/list_dags', data);
+      const response = await axios.post('https://d841-202-78-234-201.ngrok-free.app/list_dags', data);
   
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
@@ -109,7 +109,7 @@ export const createDag = async (data) => {
   
   export const triggerDag = async (data) => {
     try {
-      const response = await axios.post('https://4570-202-78-234-201.ngrok-free.app/trigger_dag', data);
+      const response = await axios.post('https://d841-202-78-234-201.ngrok-free.app/trigger_dag', data);
   
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
