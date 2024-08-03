@@ -90,22 +90,35 @@ const Airflow = () => {
     }
   };
 
-  const handleTogglePause = async () => {
+  const handlePauseDag = async () => {
     const payload = {
       dag_id: dagName
     };
 
     try {
-      const apiEndpoint = isPaused
-        ? unpauseDag
-        : pauseDag;
-      const response = await apiEndpoint(payload);
+      const response = await pauseDag(payload);
       if (response) {
-        console.log(isPaused ? 'DAG Unpaused' : 'DAG Paused:', response);
-        setIsPaused(!isPaused); // Toggle pause state
+        console.log('DAG Paused:', response);
+        setIsPaused(true); // Set pause state
       }
     } catch (error) {
-      console.error(`Error ${isPaused ? 'unpausing' : 'pausing'} DAG:`, error);
+      console.error('Error pausing DAG:', error);
+    }
+  };
+
+  const handleUnpauseDag = async () => {
+    const payload = {
+      dag_id: dagName
+    };
+
+    try {
+      const response = await unpauseDag(payload);
+      if (response) {
+        console.log('DAG Unpaused:', response);
+        setIsPaused(false); // Set unpause state
+      }
+    } catch (error) {
+      console.error('Error unpausing DAG:', error);
     }
   };
 
@@ -203,16 +216,20 @@ const Airflow = () => {
           {activeStep === 1 && (
             <div>
               <Typography variant="h6" gutterBottom>Configure DAG</Typography>
-              <FormControlLabel
-                control={<Checkbox checked={!isPaused} onChange={handleTogglePause} />}
-                label={isPaused ? 'Pause DAG' : 'Unpause DAG'}
-              />
               <Button
                 variant="contained"
-                onClick={handleTogglePause}
-                sx={{ marginTop: 2 }}
+                onClick={handlePauseDag}
+                // disabled={isPaused}
+                sx={{ marginRight: 2 }}
               >
-                {isPaused ? 'Unpause DAG' : 'Pause DAG'}
+                Pause DAG
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleUnpauseDag}
+                // disabled={!isPaused}
+              >
+                Unpause DAG
               </Button>
             </div>
           )}
