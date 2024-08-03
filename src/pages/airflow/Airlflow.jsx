@@ -7,8 +7,6 @@ import {
   Button,
   Typography,
   TextField,
-  Checkbox,
-  FormControlLabel,
   Paper,
   MenuItem,
   Select,
@@ -18,6 +16,8 @@ import {
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import "./Airflow.css";
 import { createDag, unpauseDag, pauseDag, triggerDag } from '../../service/airflowService';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '../../features/alert/alertSlice';
 
 const steps = ['Define', 'Configure', 'Review', 'Activate'];
 
@@ -42,6 +42,8 @@ const Airflow = () => {
   const [file, setFile] = useState(null);
   const [code, setCode] = useState('');
   const [isPaused, setIsPaused] = useState(true);
+
+  const dispatch = useDispatch();
 
   // State to hold review data
   const [reviewData, setReviewData] = useState({
@@ -73,19 +75,23 @@ const Airflow = () => {
   };
 
   const handleSubmitCreateDag = async () => {
-    const createDagPayload = {
-      dag_id: dagName,
-      schedule,
-      start_date: startDate
-    };
+    const formData = new FormData();
+    formData.append('dag_id', dagName);
+    formData.append('schedule', schedule);
+    formData.append('start_date', startDate);
+    if (file) {
+      formData.append('file', file);
+    }
 
     try {
-      const response = await createDag(createDagPayload);
+      const response = await createDag(formData);
       if (response) {
         console.log('DAG Created:', response);
+        dispatch(setAlert({type : 'success', message: 'DAG created successfully'}))
         handleNext(); // Move to the next step
       }
     } catch (error) {
+        dispatch(setAlert({type : 'error', message: 'Failed to create DAG'}))
       console.error('Error creating DAG:', error);
     }
   };
@@ -99,9 +105,11 @@ const Airflow = () => {
       const response = await pauseDag(payload);
       if (response) {
         console.log('DAG Paused:', response);
+        dispatch(setAlert({type : 'success', message: 'DAG paused successfully'}))
         setIsPaused(true); // Set pause state
       }
     } catch (error) {
+        dispatch(setAlert({type : 'success', message: 'Failed to pause DAG'}))
       console.error('Error pausing DAG:', error);
     }
   };
@@ -114,10 +122,13 @@ const Airflow = () => {
     try {
       const response = await unpauseDag(payload);
       if (response) {
+        dispatch(setAlert({type : 'success', message: 'DAG unpaused successfully'}))
         console.log('DAG Unpaused:', response);
         setIsPaused(false); // Set unpause state
       }
     } catch (error) {
+        dispatch(setAlert({type : 'success', message: 'Failed to unpause DAG'}))
+
       console.error('Error unpausing DAG:', error);
     }
   };
@@ -130,9 +141,11 @@ const Airflow = () => {
     try {
       const response = await triggerDag(triggerDagPayload);
       if (response) {
+        dispatch(setAlert({type : 'success', message: 'DAG triggered successfully'}))
         console.log('DAG Triggered:', response);
       }
     } catch (error) {
+        dispatch(setAlert({type : 'success', message: 'Failed to trigger DAG'}))
       console.error('Error triggering DAG:', error);
     }
   };
@@ -181,19 +194,13 @@ const Airflow = () => {
                 fullWidth
                 margin="normal"
               />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Upload Python File"
-                onChange={(e) => setFile(e.target.checked ? file : null)}
+              <Typography variant="body1" marginY={2}>Upload Python File:</Typography>
+              <TextField
+                type="file"
+                onChange={(e) => setFile(e.target.files[0])}
+                fullWidth
+                margin="normal"
               />
-              {file && (
-                <TextField
-                  type="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  fullWidth
-                  margin="normal"
-                />
-              )}
               <Typography variant="body1" marginY={2}>Or write Python code:</Typography>
               <TextField
                 multiline
