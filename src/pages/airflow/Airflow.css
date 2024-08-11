@@ -1,0 +1,12 @@
+.btn-group-file{
+    display: flex;
+    gap: 10px;
+}
+.url_container{
+    border: 1px solid #eceff133;
+    border-radius: 10px;
+    padding: 1rem;
+}
+.list_container{
+    align-items: center;
+}

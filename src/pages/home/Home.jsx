@@ -131,7 +131,7 @@ const Home = () => {
               />
             ))}
           </div>
-          <div>
+          <div className="bottom-card">
             <h3 className="text_heading">Social Media Web-Scraper Engines</h3>
             <p className="text_padding">
               All essential social media scraping tools in one place. Extract

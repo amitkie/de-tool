@@ -17,7 +17,7 @@ const createDagPayload = {
 
 export const createDag = async (data) => {
     try {
-      const response = await axios.post('https://767e-202-78-234-201.ngrok-free.app/create_dag_file', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/create_dag_file', data);
 
     //   response = {
     //     "message": "DAG file created and Airflow reloaded",
@@ -30,7 +30,7 @@ export const createDag = async (data) => {
         throw new Error('Network response was not ok');
       }
   
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error('Error in getting user info:', error);
       throw error;
@@ -39,7 +39,7 @@ export const createDag = async (data) => {
 
 export const modifyDag = async (data) => {
     try {
-      const response = await axios.post('https://b02c-202-78-234-201.ngrok-free.app/modify-file/', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/modify-file/', data);
 
     //   response = {
     //     "message": "DAG file created and Airflow reloaded",
@@ -52,7 +52,29 @@ export const modifyDag = async (data) => {
         throw new Error('Network response was not ok');
       }
   
-      return response.data.data;
+      return response.data;
+    } catch (error) {
+      console.error('Error in getting user info:', error);
+      throw error;
+    }
+  };
+
+  export const downloadDag = async (data) => {
+    try {
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/modify-file/', data);
+
+    //   response = {
+    //     "message": "DAG file created and Airflow reloaded",
+    //     "dag_file_path": "C:/Users/Saptarshi/Documents/kie_tools/docker/dags\\amitpagespeedinsights.py",
+    //     "refresh_output": {
+    //     }
+    // }
+  
+      if (response.status !== 200) {
+        throw new Error('Network response was not ok');
+      }
+  
+      return response.data;
     } catch (error) {
       console.error('Error in getting user info:', error);
       throw error;
@@ -62,7 +84,7 @@ export const modifyDag = async (data) => {
 
   export const createDagWithScript = async (data) => {
     try {
-      const response = await axios.post('https://767e-202-78-234-201.ngrok-free.app/create_dag', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/create_dag', data);
 
     //   response = {
     //     "message": "DAG file created and Airflow reloaded",
@@ -75,7 +97,7 @@ export const modifyDag = async (data) => {
         throw new Error('Network response was not ok');
       }
   
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error('Error in getting user info:', error);
       throw error;
@@ -93,7 +115,7 @@ export const modifyDag = async (data) => {
 
   export const unpauseDag = async (data) => {
     try {
-      const response = await axios.post('https://767e-202-78-234-201.ngrok-free.app/unpause_dag', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/unpause_dag', data);
 
     //   response = {
     //     "message": "DAG amitpagespeedinsights unpaused",
@@ -106,7 +128,7 @@ export const modifyDag = async (data) => {
         throw new Error('Network response was not ok');
       }
   
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error('Error in getting user info:', error);
       throw error;
@@ -120,13 +142,13 @@ export const modifyDag = async (data) => {
 
   export const pauseDag = async (data) => {
     try {
-      const response = await axios.post('https://767e-202-78-234-201.ngrok-free.app/pause_dag', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/pause_dag', data);
   
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
       }
   
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error('Error in getting user info:', error);
       throw error;
@@ -135,13 +157,13 @@ export const modifyDag = async (data) => {
 
   export const listAllDags = async (data) => {
     try {
-      const response = await axios.post('https://767e-202-78-234-201.ngrok-free.app/list_dags', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/list_dags', data);
   
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
       }
   
-      return response.data.data;
+      return response.data;
     } catch (error) {
       console.error('Error in getting user info:', error);
       throw error;
@@ -153,7 +175,36 @@ export const modifyDag = async (data) => {
   
   export const triggerDag = async (data) => {
     try {
-      const response = await axios.post('https://767e-202-78-234-201.ngrok-free.app/trigger_dag', data);
+      const response = await axios.post('https://8906-2405-201-8026-1009-2dc7-8f1b-845b-4460.ngrok-free.app/trigger_dag', data);
+  
+      if (response.status !== 200) {
+        throw new Error('Network response was not ok');
+      }
+  
+      return response.data;
+    } catch (error) {
+      console.error('Error in getting user info:', error);
+      throw error;
+    }
+  };
+
+  export const saveUrlsToDatabase = async (data) => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/project/create-url', data);
+  
+      if (response.status !== 200) {
+        throw new Error('Network response was not ok');
+      }
+  
+      return response.data;
+    } catch (error) {
+      console.error('Error in getting user info:', error);
+      throw error;
+    }
+  };
+  export const getUrlsToDatabase = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/project/get-url?userId=${id}`);
   
       if (response.status !== 200) {
         throw new Error('Network response was not ok');
@@ -161,7 +212,7 @@ export const modifyDag = async (data) => {
   
       return response.data.data;
     } catch (error) {
-      console.error('Error in getting user info:', error);
+      console.error('Error in getting urls', error);
       throw error;
     }
   };

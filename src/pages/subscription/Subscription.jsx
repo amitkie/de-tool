@@ -3,6 +3,7 @@ import './Subscription.css'; // Import the CSS file
 import { useDispatch, useSelector } from 'react-redux';
 import { buySubscription } from '../../service/paymentService';
 import { getUserInfoRequest } from '../../features/user/userSlice';
+import { setAlert } from '../../features/alert/alertSlice';
 
 const Subscription = () => {
   const [isAnnually, setIsAnnually] = useState(false);
@@ -28,9 +29,9 @@ const Subscription = () => {
     try {
       await buySubscription(payload);
       dispatch(getUserInfoRequest(userId))
-      alert('Payment successful!'); // Display success message or redirect user
+      dispatch(setAlert({type: 'success', message: 'Payment Successful'}))
     } catch (error) {
-      alert('Payment failed. Please try again.'); // Display error message
+      dispatch(setAlert({type: 'error', message: 'Payment failed. Please try again.'}))
     }
   };
 
