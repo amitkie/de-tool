@@ -1,16 +1,12 @@
-// import { call, put, takeLatest } from 'redux-saga/effects';
-// import { hideAlert, showAlert } from './alertSlice';
+// src/features/alert/alertSaga.js
+import { takeEvery, put, delay } from 'redux-saga/effects';
+import { setAlert, clearAlert } from './alertSlice';
 
-// function* handleShowAlert(action) {
-//   yield put(showAlert(action.payload));
+function* handleSetAlert(action) {
+  yield delay(3000); // Clear the alert after 3 seconds
+  yield put(clearAlert());
+}
 
-//   // Automatically hide the alert after 5 seconds
-//   yield call(function* () {
-//     yield new Promise(resolve => setTimeout(resolve, 5000));
-//     yield put(hideAlert());
-//   });
-// }
-
-// export function* watchAlertSaga() {
-//   yield takeLatest(showAlert.type, handleShowAlert);
-// }
+export default function* alertSaga() {
+  yield takeEvery(setAlert.type, handleSetAlert);
+}

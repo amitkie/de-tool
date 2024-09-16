@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import { clearAlert } from "../../features/alert/alertSlice";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import { clearAlert } from '../../features/alert/alertSlice';
 
 const DynamicAlert = () => {
   const dispatch = useDispatch();
@@ -23,19 +23,8 @@ const DynamicAlert = () => {
   }
 
   return (
-    <Stack
-      sx={{
-        position: "absolute",
-        top: 80,
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 1000,
-      }}
-      spacing={2}
-    >
-      <Alert severity={type} onClose={() => dispatch(clearAlert())}>
-        {message}
-      </Alert>
+    <Stack sx={{ position: 'absolute', top: 80, left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }} spacing={2}>
+      <Alert severity={type} onClose={() => dispatch(clearAlert())}>{message}</Alert>
     </Stack>
   );
 };

@@ -1,283 +1,161 @@
-import React, { useEffect, useState } from "react";
-import TabComponent from "../../components/tabs/TabComponent";
-// import {
-//   CircleMenu,
-//   CircleMenuItem,
-//   TooltipPlacement,
-// } from "react-circular-menu";
+import React, { useEffect } from "react";
+import Cards from "../../components/Cards/Cards";
 import { useNavigate } from "react-router-dom";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-import { Link } from "react-router-dom";
-// import { IoIosHome } from "react-icons/io";
-import { IoHomeOutline } from "react-icons/io5";
-import WorkSpaceIcon from "../../assets/images/workspace-nav.png";
-import AnalyticsIcon from "../../assets/images/analytics-nav.png";
-import HealthCardIcon from "../../assets/images/health-card-nav.png";
-import InsightIcon from "../../assets/images/insight-nav.png";
-import SettingsIcon from "../../assets/images/settings-nav.png";
-import AboutIcon from "../../assets/images/aboutTool-nav.png";
-
-import "./home.scss";
-import WorkSpace from "../workSpace/workSpace";
-import { useSelector } from "react-redux";
+import "./Home.css";
+import { getUserActivity } from "../../service/userService";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfoRequest } from "../../features/user/userSlice";
+import { setAlert } from "../../features/alert/alertSlice";
 
 const Home = () => {
-  const { userInfo, projectInfo } = useSelector((state) => state.user);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token, userInfo } = useSelector((state) => state.user);
+  const userId = token;
 
   useEffect(() => {
-    const items = document.querySelectorAll(".circle-menu");
-  
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-  
-    window.addEventListener("resize", handleResize);
-  
-    // Initial call to set the layout based on the current window size
-    handleResize();
-  
-    const halfCircleDegrees = 220; // Adjust the degrees for half-circle
-  
-    for (let i = 0, l = items.length; i < l; i++) {
-      const angle =
-        -0.5 * Math.PI - ((halfCircleDegrees / 180) * i * Math.PI) / l;
-      const leftValue = isMobile
-        ? (17 - 50 * Math.cos(angle)).toFixed(4) + "%"
-        : (17 - 40 * Math.cos(angle)).toFixed(4) + "%";
-      const topValue = isMobile
-        ? (25 + 25 * Math.sin(angle)).toFixed(4) + "%"
-        : (35 + 35 * Math.sin(angle)).toFixed(4) + "%";
-  
-      items[i].style.left = leftValue;
-      items[i].style.top = topValue;
+    if (userId) {
+      dispatch(getUserInfoRequest(userId));
     }
-    // Cleanup function to remove the event listener
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [isMobile]);
+  }, [userId, dispatch]);
 
+  const handleCardClick = async (tabName, link) => {
+    try {
+      if (userInfo?.paymentInfo?.payment_status === 'Completed') {
+        navigate(link);
+        return;
+      }
 
-  const tabs = [
+      const userActivity = await getUserActivity(userId, tabName);
+
+      if (userActivity.status === 'error' && userActivity.errorCode === 'LIMIT_REACHED') {
+        dispatch(setAlert({type: "error", message: "You have reached the limit for this activity. Please make the payment"}))
+        return;
+      }
+
+      navigate(link);
+    } catch (error) {
+      console.error(`Error fetching activity for ${tabName}:`, error);
+      dispatch(setAlert({type: "success", message: "You have reached the limit for this activity. Please make the payment."}))
+      navigate('/select-subscription');
+    }
+  };
+
+  const handleCardClickForScrapper = async(tabName,link) => {
+    navigate(link)
+  }
+
+  const handleAutomateClick = (tab) => {
+    navigate('/automate-flow');
+  };
+
+  const cardsData = [
     {
-      label: "Recent Activity",
-      content: (
-        <div className="user-menu">
-          {projectInfo?.project?.length > 0 ? (
-            projectInfo.project.map((item) => (
-              <div key={item.id} className="user-activity">
-                <p>
-                  Last activity on: <b>{formatDate(item.updatedAt)}</b>
-                </p>
-                <p>
-                  Project Name: <b>{item.project_name}</b>
-                </p>
-              </div>
-            ))
-          ) : (
-            <p>No Projects available. Please create one.</p>
-          )}
-        </div>
-      ),
+      title: "Page Speed Insights",
+      tab_name: 'page_speed_insights',
+      // description: `Page Speed Insights cards, designed to provide actionable tips and metrics for optimizing web page loading times.`,
+      imgSrc: "../../images/page_speed_insight.png",
+      link: "/page-speed-insights",
     },
     {
-      label: "Recommended",
-      content: (
-        <div className="user-menu">
-          {projectInfo.project && projectInfo?.project?.length > 0 ? (
-            <div className="user-activity">
-              <p>
-                Last activity on:{" "}
-                <b>
-                  {formatDate(
-                    projectInfo?.project[projectInfo?.project?.length - 1]
-                      .updatedAt
-                  )}
-                </b>
-              </p>
-              <p>
-                Project Name:{" "}
-                <b>
-                  {
-                    projectInfo?.project[projectInfo?.project?.length - 1]
-                      .project_name
-                  }
-                </b>
-              </p>
-            </div>
-          ) : (
-            <p>No Projects available. Please create one.</p>
-          )}
-        </div>
-      ),
+      title: "Facebook Insights",
+      tab_name: 'facebook_insight',
+      // description: `The Facebook Insights is a powerful tool designed to extract and gather data from Facebook dashboard.`,
+      imgSrc: "../../images/fb.jpg",
+      link: "/facebook-insights",
+    },
+    {
+      title: "Google Analytics",
+      tab_name: 'google_analytics',
+      // description: `Tool that provides comprehensive insights into website and app performance.`,
+      imgSrc: "../../images/google_analytics.webp",
+      link: "/google-insights",
+    },
+    {
+      title: "Google Ads",
+      tab_name: 'google_ads',
+      // description: `Enables businesses of all sizes to reach their target audiences through targeted, pay-per-click (PPC) advertising.`,
+      imgSrc: "../../images/google_ads.jpeg",
+      link: "/google-ads",
+    },
+    {
+      title: "DV360",
+      tab_name: 'dv360',
+      // description: `Managing and optimizing digital advertising campaigns across display, video, and other media channels.`,
+      imgSrc: "../../images/dv360.png",
+      link: "/dv-360",
     },
   ];
-  const Link = ({ id, children, className, title, to }) => (
-    <OverlayTrigger
-      placement={"right"}
-      className="tooltip-overlay"
-      overlay={
-        <Tooltip to={to} id="tooltip-top" className="tooltip-container">
-          {title}
-        </Tooltip>
-      }
-    >
-      <a href={to} className={className}>
-        {children}
-      </a>
-    </OverlayTrigger>
-  );
+
+  const socialMediaCardsData = [
+    {
+      title: "Instagram Scraper",
+      tab_name: 'instagram_scraper',
+      // description: `Scrape and download Instagram posts, profiles, places, hashtags, photos, and comments. Get data from Instagram using one or more Instagram URLs or search queries. Export scraped data, run the scraper via API, schedule and monitor runs or integrate with other tools.`,
+      imgSrc: "../../images/insta.png",
+      link: "/scrapers/instagram-scraper",
+    },
+    {
+      title: "Facebook Scraper",
+      tab_name: 'facebook_scraper',
+      // description: `Facebook scraping tool to crawl and extract basic data from one or multiple Facebook Pages. Extract Facebook page name, page URL address, category, likes, check-ins, and other public data. Download data in JSON, CSV, Excel and use it in apps, spreadsheets, and reports.`,
+      imgSrc: "../../images/fb.jpg",
+      link: "/scrapers/facebook-scraper",
+    },
+    {
+      title: "Twitter Scraper",
+      tab_name: 'twitter_scraper',
+      // description: `⚡️ Lightning-fast search, URL, list, and profile scraping, with customizable filters. At $0.30 per 1000 tweets, and 30-80 tweets per second, it is ideal for researchers, entrepreneurs, and businesses! Get comprehensive insights from Twitter (X) now!`,
+      imgSrc: "../../images/twitter.jpg",
+      link: "/scrapers/twitter-scraper",
+    },
+  ];
 
   return (
     <>
-      <div className="d-block px-4 mt-4">
-        <div className="row">
-          <div className="col-sm-12 col-md-12 col-lg-6 order-sm-last order-md-last order-lg-first">
-            <div className="home-desc">
-              <h2 className="page-title">Digi-Cadence</h2>
-              <p className="mb-4">
-                Good Morning, {userInfo?.user?.first_name}{" "}
-                {userInfo?.user?.last_name}
-              </p>
-            </div>
-            <div className="recent-activity mt-5">
-              <TabComponent tabs={tabs} className="home-tabs" />
-            </div>
+      <main className="main flow">
+        <div className="main__cards cards">
+          <h3 className="text_heading">API Data Fetchers</h3>
+          <div className="cards__inner">
+            {cardsData.map((card, index) => (
+              <Cards
+                key={index}
+                title={card.title}
+                tabName={card.tab_name}
+                description={card.description}
+                imgSrc={card.imgSrc}
+                link={card.link}
+                onClick={handleCardClick}
+                onAutomateClick={handleAutomateClick}
+                paymentStatus={userInfo?.paymentInfo?.payment_status}
+              />
+            ))}
           </div>
-          <div className="col-sm-12 col-md-12 col-lg-6 order-sm-first order-md-first order-lg-last mt-5">
-            <div className="main-nav">
-              <div className="menu-home">
-                <IoHomeOutline className="menu-icon" />
-                <span className="menu-text">Home</span>
-              </div>
-
-              <div className="circle-menu">
-                <Link
-                  to={"/workspace"}
-                  className="menu-list-nav"
-                  title="Create new DQ Sheet, access older DQ Sheet"
-                >
-                  <img
-                    src={WorkSpaceIcon}
-                    className="sidenav-icon-img"
-                    alt="workspace"
-                  />
-                  <span className="menu-text">Workspace</span>
-                </Link>
-              </div>
-              <div className="circle-menu">
-                {/* <Link
-                  to={`/analytics/${projectInfo?.project[projectInfo?.project?.length-1].id}`}
-                  // to={`/analytics/1`}
-                  className="menu-list-nav"
-                  title="View the last opened or new created DQ Sheet"
-                >
-                  <img
-                    src={AnalyticsIcon}
-                    className="sidenav-icon-img"
-                    alt="Analytics"
-                  />
-                  <span className="menu-text">Analytics</span>
-                </Link> */}
-
-                {projectInfo.project && projectInfo?.project?.length > 0 ? (
-                  <Link
-                    to={`/analytics/${projectInfo?.project[projectInfo?.project?.length - 1].id}`}
-                    className="menu-list-nav"
-                    title="View the last opened or newly created DQ Sheet"
-                  >
-                    <img
-                      src={AnalyticsIcon}
-                      className="sidenav-icon-img"
-                      alt="Analytics"
-                    />
-                    <span className="menu-text">Analytics</span>
-                  </Link>
-                ) : (
-                  <div
-                    className="menu-list-nav"
-                    onClick={() => alert('Please create a project first to view this page.')}
-                    style={{ cursor: 'pointer' }}
-                    title="No projects available. Click to create one."
-                  >
-                    <img
-                      src={AnalyticsIcon}
-                      className="sidenav-icon-img"
-                      alt="No Projects Available"
-                    />
-                    <span className="menu-text">Analytics</span>
-                  </div>
-                )}
-
-              </div>
-              <div className="circle-menu">
-                <Link
-                  to={"/healthcard"}
-                  className="menu-list-nav"
-                  title="Brand Portfolio with metrics Information"
-                >
-                  <img
-                    src={HealthCardIcon}
-                    className="sidenav-icon-img"
-                    alt="Health Card"
-                  />
-                  <span className="menu-text">Health Card</span>
-                </Link>
-              </div>
-              <div className="circle-menu">
-                <Link
-                  to={"/insights"}
-                  className="menu-list-nav"
-                  title="Select multiple already generated DQ Sheets for insights"
-                >
-                  <img
-                    src={InsightIcon}
-                    className="sidenav-icon-img"
-                    alt="Insights"
-                  />
-                  <span className="menu-text">Insights</span>
-                </Link>
-              </div>
-              <div className="circle-menu">
-                <Link
-                  to={"/settings"}
-                  className="menu-list-nav"
-                  title="update the general user settings"
-                >
-                  <img
-                    src={SettingsIcon}
-                    className="sidenav-icon-img"
-                    alt="Settings"
-                  />
-                  <span className="menu-text">Settings</span>
-                </Link>
-              </div>
-              <div className="circle-menu">
-                <Link
-                  to={"/about"}
-                  className="menu-list-nav"
-                  title="Description about the tool, user manual"
-                >
-                  <img
-                    src={AboutIcon}
-                    className="sidenav-icon-img"
-                    alt="About Tool"
-                  />
-                  <span className="menu-text">About Tool</span>
-                </Link>
-              </div>
+          <div className="bottom-card">
+            <h3 className="text_heading">Social Media Web-Scraper Engines</h3>
+            <p className="text_padding">
+              All essential social media scraping tools in one place. Extract
+              reviews, comments, and a lot more to track sentiment and
+              engagement.
+            </p>
+            <div className="cards__inner">
+              {socialMediaCardsData.map((card, index) => (
+                <Cards
+                  key={index}
+                  title={card.title}
+                  tabName={card.tab_name}
+                  description={card.description}
+                  imgSrc={card.imgSrc}
+                  link={card.link}
+                  onClick={handleCardClickForScrapper}
+                  // onAutomateClick={handleAutomateClick}
+                  // paymentStatus={userInfo?.paymentInfo?.payment_status}
+                />
+              ))}
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 };

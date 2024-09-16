@@ -1,72 +1,61 @@
-import React, { useEffect, useState } from "react";
-import HeaderLogo from "../../assets/images/kiesquare-logo-transparent.png";
-import { FaRegCircleUser, FaPowerOff } from "react-icons/fa6";
-import "./header.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getHamburgerRequest, getMobileRequest, logout } from "../../features/user/userSlice";
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/user/userSlice';
+import './Header.css';
 
 export default function Header() {
-  const { userInfo } = useSelector((state) => state.user);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [showHamburger, setShowHamburger] = useState()
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      dispatch(getMobileRequest(window.innerWidth < 768))
-    }
-    
-    window.addEventListener("resize", handleResize);
-
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [isMobile])
-
-  const toggleHamburger = () => {
-    setShowHamburger(!showHamburger);
-    dispatch(getHamburgerRequest(!showHamburger))
-  }
- 
-  const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
-  const handleLogout = () => {
-    sessionStorage.clear();
-    localStorage.clear();
-    dispatch(logout());
-    navigate("/");
+  const navigate = useNavigate();
+  const { loading, token, userInfo, error: loginError } = useSelector((state) => state.user);
+  const userName = `${userInfo?.user?.first_name} ${userInfo?.user?.last_name}`;
+  const userEmail = userInfo?.user?.email;
+  console.log(userName);
+  const userInitials = userName.split(' ').map(name => name[0]).join('');
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.clear();
+    navigate('/');
+  };
+
+
   return (
-    <div className="header-container">
-      <div className="row">
-      <div className={`col-md-6 col-sm-12 ${isMobile ? "justify-sm-between" : ""}`}>
-          <div className="header-logo">
-            <img src={HeaderLogo} className="header-logo" alt="Header Logo" />
-          </div>
-          <div className="hamburger-icon" onClick={toggleHamburger}>
-            <span className="hamburger-menu" ></span>
-          </div> 
+    <header className="header-container">
+      <div className="header-content">
+        <div className="header-logo">
+          <img style={{scale:'1.2' , marginLeft:'1rem'}} src="../../images/kie_logo.JPG" alt="Header Logo" />
         </div>
-        <div className="col-md-6 col-sm-12 align-items-end">
-          <div className="user-info" style={{ display: !isMobile || (isMobile && showHamburger) ? "flex" : "none" }}>
-            <span className="user-icon">
-              <FaRegCircleUser width={28} height={28} />
-            </span>
-            <div className="user-details">
-              <span className="user-name">
-                {userInfo?.user?.first_name} {userInfo?.user?.last_name}
-              </span>
-              <span className="user-email">{userInfo?.user?.email}</span>
-            </div>
-            <span className="logout-icon" onClick={handleLogout}>
-              <FaPowerOff width={28} height={28} />
-            </span>
+        <nav className="header-nav">
+          <NavLink to="/home" className={({ isActive }) => (isActive ? 'active-link' : '')}>Home</NavLink>
+          <NavLink to="/automate-flow" className={({ isActive }) => (isActive ? 'active-link' : '')}>Automate Flow</NavLink>
+          {/* <NavLink to="/airflow" className={({ isActive }) => (isActive ? 'active-link' : '')}>Airflow</NavLink> */}
+          <NavLink to="/airflow1" className={({ isActive }) => (isActive ? 'active-link' : '')}>Airflow</NavLink>
+          <NavLink to="/select-subscription" className={({ isActive }) => (isActive ? 'active-link' : '')}>Pricing</NavLink>
+        </nav>
+        <div className="user-info">
+          <div className="user-icon" onClick={toggleDropdown}>
+            <span className="user-initials">{userInitials}</span>
           </div>
+          {isDropdownOpen && (
+            <div className="user-dropdown">
+              <div className="user-details">
+                <span className="user-email">{userEmail}</span>
+              </div>
+              <div className="user-actions">
+                <NavLink to="/profile" className={({ isActive }) => (isActive ? 'active-link' : '')}>Profile</NavLink>
+                <NavLink to="/settings" className={({ isActive }) => (isActive ? 'active-link' : '')}>Settings</NavLink>
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </header>
   );
 }
