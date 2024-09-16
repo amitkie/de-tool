@@ -1,14 +1,18 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "../pages/auth/Login";
-import Home from "../pages/home/Home";
+
+import Login from "../pages/login";
+import Home from "../pages/home/home";
 import Layout from "../layout/Layout";
-import APIDataFetchers from "../pages/dataFetchers/apiDataFetchers/APIDataFetchers";
-import ScrapperForm from '../components/ScraperForm/ScrapperForm'
-import Subscription from "../pages/subscription/Subscription";
-import { AutomateFlow } from "../pages/automateFlow/AutomateFlow";
-import Services from "../pages/services/Services";
-import Airflow from "../pages/airflow/Airlflow";
+import WorkSpace from "../pages/workSpace/workSpace";
+import Analytics from "../pages/analytics/Analytics";
+import Insights from "../pages/insights/Insights";
+import HealthCard from "../pages/healthcard/HealthCard";
+import HealthCardOverview from "../pages/healthcard/overview/HealthCardOverview";
+import Settings from "../pages/Settings/Settings";
+import About from "../pages/About/About";
+import SuperThemes from "../components/SuperThemes/SuperThemes";
+import Help from "../components/Help/Help";
 
 const router = createBrowserRouter([
   {
@@ -24,62 +28,77 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/select-subscription",
+    path: "/workspace",
     element: (
       <Layout>
-        <Subscription />
+        <WorkSpace />
       </Layout>
     ),
   },
   {
-    path: "/automate-flow",
+    path: "/analytics/:projectId",
     element: (
       <Layout>
-        <AutomateFlow />
+        <Analytics />
       </Layout>
     ),
   },
   {
-    path: "/automate-flow",
+    path: "/superthemes",
     element: (
       <Layout>
-        <AutomateFlow />
+        <SuperThemes />
       </Layout>
     ),
   },
   {
-    path: "/airflow",
+    path: "/insights",
     element: (
       <Layout>
-        <Services />
+        <Insights />
       </Layout>
     ),
   },
   {
-    path: "/airflow1",
+    path: "/healthcard",
     element: (
       <Layout>
-        <Airflow />
+        <HealthCard />
       </Layout>
     ),
   },
   {
-    path: "/scrapers/:scrapers",
+    path: "/healthcardoverview/:brand",
     element: (
       <Layout>
-        <ScrapperForm />
+        <HealthCardOverview />
       </Layout>
     ),
   },
   {
-    path: "/:dataFetcher",
+    path: "/settings",
     element: (
       <Layout>
-        <APIDataFetchers />
+        <Settings />
       </Layout>
     ),
   },
- 
+  {
+    path: "/about",
+    element: (
+      <Layout>
+        <About />
+      </Layout>
+    ),
+  },
+  {
+    path: "/help",
+    element: (
+      <Layout>
+        <Help />
+      </Layout>
+    ),
+  },
 ]);
 
 export default router;
